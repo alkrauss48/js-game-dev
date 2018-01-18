@@ -31,7 +31,7 @@ var bricks = [];
 for(var c=0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for(var r=0; r < brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0 };
+    bricks[c][r] = { x: 0, y: 0, status: 1};
   }
 }
 
@@ -53,6 +53,18 @@ function keyUpHandler(event) {
   }
 }
 
+function collisionDetection() {
+  for(c=0; c<brickColumnCount; c++) {
+    for(r=0; r<brickRowCount; r++) {
+      var b = bricks[c][r];
+      if (b.status === 1 && x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+        dy = -dy;
+        bricks[c][r].status = 0;
+      }
+    }
+  }
+}
+
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 
@@ -62,15 +74,17 @@ function drawBricks() {
 
   for(var c = 0; c < bricks.length; c++) {
     for(var r = 0; r < bricks[c].length; r++) {
-      brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-      brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-      bricks[c][r].x = brickX;
-      bricks[c][r].y = brickY;
-      ctx.beginPath();
-      ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
-      ctx.fillStyle = "#0095DD";
-      ctx.fill();
-      ctx.closePath();
+      if (bricks[c][r].status === 1) {
+        brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+        brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+        bricks[c][r].x = brickX;
+        bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+      }
     }
   }
 }
@@ -101,6 +115,7 @@ function draw() {
   drawBricks();
   drawBall();
   drawPaddle();
+  collisionDetection()
 
   if( x + dx > canvas.width - ballRadius || x + dx < ballRadius ) {
     dx = -dx;
