@@ -56,6 +56,13 @@ function keyUpHandler(event) {
   }
 }
 
+function mouseMoveHandler(event) {
+  var relativeX = event.clientX - canvas.offsetLeft;
+  if(relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - (paddleWidth / 2);
+  }
+}
+
 function collisionDetection() {
   for(c=0; c<brickColumnCount; c++) {
     for(r=0; r<brickRowCount; r++) {
@@ -81,6 +88,7 @@ function drawScore() {
 
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
+document.addEventListener('mousemove', mouseMoveHandler, false);
 
 function drawBricks() {
   var brickX;
