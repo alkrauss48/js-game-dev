@@ -8,25 +8,24 @@ var ball;
 var paddle;
 var bricks;
 var newBricks;
-var brickInfo;
 var score = 0;
 var scoreText;
 
-function initBricks() {
-  brickInfo = {
-    width: 50,
-    height: 20,
-    count: {
-      row: 7,
-      col: 3
-    },
-    offset: {
-      top: 50,
-      left: 60
-    },
-    padding: 10
-  };
+var brickInfo = {
+  width: 50,
+  height: 20,
+  count: {
+    row: 7,
+    col: 3
+  },
+  offset: {
+    top: 50,
+    left: 60
+  },
+  padding: 10
+};
 
+function initBricks() {
   bricks = game.add.group();
   for( var c = 0; c < brickInfo.count.col; c++ ) {
     for( var r = 0; r < brickInfo.count.row; r++ ) {
