@@ -24,8 +24,14 @@ function create() {
   game.physics.enable(ball, Phaser.Physics.ARCADE);
   game.physics.enable(paddle, Phaser.Physics.ARCADE);
   ball.body.collideWorldBounds = true;
+  game.physics.arcade.checkCollision.down = false;
   ball.body.velocity.set(150, -150);
   ball.body.bounce.set(1);
+  ball.checkWorldBounds = true;
+  ball.events.onOutOfBounds.add( function() {
+    alert('Game Over!');
+    location.reload();
+  });
   paddle.body.immovable = true;
 }
 
