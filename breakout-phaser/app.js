@@ -17,14 +17,20 @@ function preload() {
 }
 
 function create() {
+  // Enable physics
   game.physics.startSystem(Phaser.Physics.ARCADE);
+
+  // Add sprites
   ball = game.add.sprite(game.world.width * .5, game.world.height - 25, 'ball');
   paddle = game.add.sprite(game.world.width * .5, game.world.height - 5, 'paddle');
-  paddle.anchor.set(.5, 1);
+
+  // Physics config
   game.physics.enable(ball, Phaser.Physics.ARCADE);
   game.physics.enable(paddle, Phaser.Physics.ARCADE);
-  ball.body.collideWorldBounds = true;
   game.physics.arcade.checkCollision.down = false;
+
+  // Ball config
+  ball.body.collideWorldBounds = true;
   ball.body.velocity.set(150, -150);
   ball.body.bounce.set(1);
   ball.checkWorldBounds = true;
@@ -32,6 +38,9 @@ function create() {
     alert('Game Over!');
     location.reload();
   });
+
+  // Paddle config
+  paddle.anchor.set(.5, 1);
   paddle.body.immovable = true;
 }
 
