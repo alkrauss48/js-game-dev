@@ -9,6 +9,8 @@ var paddle;
 var bricks;
 var newBricks;
 var brickInfo;
+var score = 0;
+var scoreText;
 
 function initBricks() {
   brickInfo = {
@@ -41,6 +43,8 @@ function initBricks() {
 
 function ballHitBrick(ball, brick) {
   brick.kill();
+  score += 10;
+  scoreText.setText('Points: ' + score);
 }
 
 function preload() {
@@ -80,6 +84,9 @@ function create() {
   // Paddle config
   paddle.anchor.set(.5, 1);
   paddle.body.immovable = true;
+
+  // Score config
+  scoreText = game.add.text(5, 5, 'Points: ' + score, { font: '18px Arial', fill: '#0095DD' });
 }
 
 function update() {
