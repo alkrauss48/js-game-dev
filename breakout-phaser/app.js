@@ -10,6 +10,8 @@ var bricks;
 var newBricks;
 var score = 0;
 var scoreText;
+var lives = 3;
+var livesText;
 var killCount = 0;
 
 var brickInfo = {
@@ -84,16 +86,26 @@ function create() {
   ball.body.bounce.set(1);
   ball.checkWorldBounds = true;
   ball.events.onOutOfBounds.add( function() {
-    alert('Game Over!');
-    location.reload();
+    lives--;
+    if (lives === 0) {
+      alert('Game Over!');
+      location.reload();
+    } else {
+      livesText.setText('Lives: ' + lives);
+      ball.reset(game.world.width * .5, game.world.height - 25);
+      paddle.reset(game.world.width * .5, game.world.height - 5);
+      ball.body.velocity.set(150, -150);
+    }
   });
 
   // Paddle config
   paddle.anchor.set(.5, 1);
   paddle.body.immovable = true;
 
-  // Score config
+  // Text config
   scoreText = game.add.text(5, 5, 'Points: ' + score, { font: '18px Arial', fill: '#0095DD' });
+  livesText = game.add.text(game.world.width - 5, 5, 'Lives: ' + lives, { font: '18px Arial', fill: '#0095DD' });
+  livesText.anchor.set(1, 0);
 }
 
 function update() {
