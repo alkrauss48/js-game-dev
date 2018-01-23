@@ -10,6 +10,7 @@ var bricks;
 var newBricks;
 var score = 0;
 var scoreText;
+var killCount = 0;
 
 var brickInfo = {
   width: 50,
@@ -44,6 +45,13 @@ function ballHitBrick(ball, brick) {
   brick.kill();
   score += 10;
   scoreText.setText('Points: ' + score);
+
+  // Set victory conditions
+  killCount++;
+  if (killCount === bricks.children.length) {
+    alert('You won the game, congratulations!');
+    location.reload();
+  }
 }
 
 function preload() {
