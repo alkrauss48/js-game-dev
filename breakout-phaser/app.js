@@ -39,6 +39,10 @@ function initBricks() {
   }
 }
 
+function ballHitBrick(ball, brick) {
+  brick.kill();
+}
+
 function preload() {
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.pageAlignHorizontally = true;
@@ -80,6 +84,6 @@ function create() {
 
 function update() {
   game.physics.arcade.collide(ball, paddle);
-  game.physics.arcade.collide(ball, bricks);
+  game.physics.arcade.collide(ball, bricks, ballHitBrick);
   paddle.x = game.input.x || game.world.width * .5;
 }
