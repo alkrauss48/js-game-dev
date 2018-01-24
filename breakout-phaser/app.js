@@ -13,6 +13,7 @@ var scoreText;
 var lives = 3;
 var livesText;
 var killCount = 0;
+var lifeLostText;
 
 var brickInfo = {
   width: 50,
@@ -40,6 +41,23 @@ function initBricks() {
       newBrick.anchor.set(.5);
       bricks.add(newBrick);
     }
+  }
+}
+
+function ballLeaveScreen() {
+  lives--;
+  if (lives === 0) {
+    alert('Game Over!');
+    location.reload();
+  } else {
+    livesText.setText('Lives: ' + lives);
+    ball.reset(game.world.width * .5, game.world.height - 25);
+    paddle.reset(game.world.width * .5, game.world.height - 5);
+    lifeLostText.visible = true;
+    game.input.onDown.addOnce( function() {
+      lifeLostText.visible = false;
+      ball.body.velocity.set(150, -150);
+    });
   }
 }
 
@@ -85,26 +103,19 @@ function create() {
   ball.body.velocity.set(150, -150);
   ball.body.bounce.set(1);
   ball.checkWorldBounds = true;
-  ball.events.onOutOfBounds.add( function() {
-    lives--;
-    if (lives === 0) {
-      alert('Game Over!');
-      location.reload();
-    } else {
-      livesText.setText('Lives: ' + lives);
-      ball.reset(game.world.width * .5, game.world.height - 25);
-      paddle.reset(game.world.width * .5, game.world.height - 5);
-      ball.body.velocity.set(150, -150);
-    }
-  });
+  ball.events.onOutOfBounds.add(ballLeaveScreen);
 
   // Paddle config
   paddle.anchor.set(.5, 1);
   paddle.body.immovable = true;
 
   // Text config
-  scoreText = game.add.text(5, 5, 'Points: ' + score, { font: '18px Arial', fill: '#0095DD' });
-  livesText = game.add.text(game.world.width - 5, 5, 'Lives: ' + lives, { font: '18px Arial', fill: '#0095DD' });
+  var textStyles = { font: '18px Arial', fill: '#0095DD' };
+  scoreText = game.add.text(5, 5, 'Points: ' + score, textStyles);
+  livesText = game.add.text(game.world.width - 5, 5, 'Lives: ' + lives, textStyles);
+  lifeLostText = game.add.text(game.world.width * .5, game.world.height * .5, 'Life lost, click to continue', textStyles);
+  lifeLostText.anchor.set(.5);
+  lifeLostText.visible = false;
   livesText.anchor.set(1, 0);
 }
 
