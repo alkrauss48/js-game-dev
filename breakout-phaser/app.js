@@ -84,6 +84,7 @@ function ballHitBrick(ball, brick) {
 
 function ballHitPaddle(ball, paddle) {
   ball.animations.play('wobble');
+  ball.body.velocity.x = 10 * (ball.x - paddle.x);
 }
 
 function startGame() {
